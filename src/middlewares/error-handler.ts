@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { RequestValidationError } from "../errors/request-validation-errors";
 import { DatabaseConnectionError } from "../errors/database-connection-error";
 
-// resonse structure: { errors: { message: string, field?: string}[] }
+// response structure: { errors: { message: string, field?: string}[] }
 
 export const errorHandler = (
     err: Error, 
@@ -20,7 +20,7 @@ export const errorHandler = (
     if(err instanceof DatabaseConnectionError) {
         return res.status(500).send({errors: [{ message: err.reason }] });
     }
-    
+
     res.status(400).send({
         errors: [{ message: 'Something went wrong'}]
     });
