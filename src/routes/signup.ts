@@ -1,7 +1,8 @@
 import express, {Request,  Response} from 'express';
 import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
+
 import { RequestValidationError } from '../errors/request-validation-errors';
-import { DatabaseConnectionError } from '../errors/database-connection-error';
 import { User } from '../models/user';
 
 import { BadRequestError } from '../errors/bad-request-error'
@@ -36,6 +37,21 @@ async (req: Request, res: Response) => {
 
     const user = User.build({ email, password });   // building the user object
     await user.save();  //  saving to mongo db
+
+    // generate jwt
+    const userJwt = jwt.sign({
+        id: user.id,
+        email: user.email
+    }, 'asd');
+
+
+    // store jwt in session
+    // we redefine the session object, because the type definition file 
+    // does not want to assume there is already an object on req.session
+    req.session = {
+        jwt: userJwt
+    };
+
 
     res.status(201).send(user);
  });

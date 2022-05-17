@@ -1,8 +1,8 @@
 import express from 'express';
 require('express-async-errors');    // required for handling async error,  without this request gets stuck in loop
 import { errorHandler } from './middlewares/error-handler';
-
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
@@ -12,9 +12,14 @@ import { NotFoundError } from './errors/not-found-error';
 
 
 const app = express();
-
+app.set('trust proxy', true);   // add to trust the nginx proxy
 app.use(express.json());
-
+app.use(
+    cookieSession({
+    signed: false,  // disable encryption
+    secure: true    // allow https
+    })
+);
 app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
