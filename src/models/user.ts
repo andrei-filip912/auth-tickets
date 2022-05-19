@@ -30,6 +30,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+}, {    // override the toJSON function using an object
+        // not the best practice to store the view of a JSON response here
+    toJSON: {
+        transform(doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.password;    // plain js delete keyword which removes a prop from an obj
+            delete ret.__v;
+        }
+    }
 });
 
 userSchema.pre('save', async function(done) {

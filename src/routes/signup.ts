@@ -39,10 +39,13 @@ async (req: Request, res: Response) => {
     await user.save();  //  saving to mongo db
 
     // generate jwt
-    const userJwt = jwt.sign({
-        id: user.id,
-        email: user.email
-    }, 'asd');
+    const userJwt = jwt.sign(
+        {
+            id: user.id,
+            email: user.email
+        }, 
+        process.env.JWT_KEY!    // ! bypasses Ts undefined check
+    );
 
 
     // store jwt in session
