@@ -4,7 +4,7 @@ import { CustomError } from "../errors/custom-error";
 // response structure: { errors: { message: string, field?: string}[] }
 
 export const errorHandler = (
-    err: Error, 
+    err: Error, // this parameter is only present on request validator middlewares
     req: Request, 
     res: Response, 
     next: NextFunction
