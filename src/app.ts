@@ -17,7 +17,9 @@ app.use(express.json());
 app.use(
     cookieSession({
     signed: false,  // disable encryption
-    secure: true    // allow https
+    // true value allows https.
+    // secure will be false in test env and true in production
+    secure: process.env.NODE_ENV !== 'test'
     })
 );
 app.use(currentUserRouter);
