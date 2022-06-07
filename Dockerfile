@@ -2,8 +2,8 @@ FROM node:alpine
 
 WORKDIR /app
 COPY package.json .
-#--only=prod # flag ignores the dev dependencies
-RUN npm install --only=prod #
+#--omit=dev # flag ignores the dev dependencies
+RUN npm install --omit=dev
 COPY . .
 
 CMD ["npm", "start"]
