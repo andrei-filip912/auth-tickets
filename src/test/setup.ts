@@ -2,7 +2,6 @@ import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { app } from '../app';
-import { response } from 'express';
 
 declare global {
     var getAuthCookie: () => Promise<string[]>;
